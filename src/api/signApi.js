@@ -197,7 +197,7 @@ export function createSignApi(db) {
       await delay();
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
-      if (user.role !== "MAINTAINER") {
+      if (user.role !== "MAINTAINER" && user.role !== "ADMINISTRATOR") {
         return { status: "REJECTED", reason: "Nemáte oprávnění opravit značku" };
       }
 
