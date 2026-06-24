@@ -405,13 +405,14 @@ export function selectSignAdministrationView(state) {
  * Vrací pohled pro dashboard podle role
  */
 export function selectDashboardView(state) {
-  const { role, userId } = state.auth;
+  const { role, username ,userId } = state.auth;
   const routes = selectRoutes(state);
   const signs = selectSigns(state);
 
   const base = {
     type: "DASHBOARD",
     role,
+    username,
     capabilities: {
       canEnterRouteList: true,
       canEnterSignList: true,

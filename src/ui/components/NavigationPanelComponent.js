@@ -1,6 +1,6 @@
 // src/ui/components/NavigationPanelComponent.js
 export function NavigationPanelComponent({ handlers, auth }) {
-  const { role } = auth;
+  const { role, username } = auth;
   const isLoggedIn = role !== "ANONYMOUS" && auth.token !== null;
 
   const nav = document.createElement("nav");
@@ -36,7 +36,7 @@ export function NavigationPanelComponent({ handlers, auth }) {
 
     const logoutLink = document.createElement("a");
     logoutLink.href = "#/auth";
-    logoutLink.textContent = `Odhlásit (${role})`;
+    logoutLink.textContent = `Odhlásit (${username})`;
     logoutLink.onclick = (e) => {
       e.preventDefault();
       handlers.onNavigateToAuth();

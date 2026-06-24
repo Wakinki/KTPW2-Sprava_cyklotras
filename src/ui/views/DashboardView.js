@@ -1,6 +1,7 @@
 // src/ui/views/DashboardView.js
 export function DashboardView({ viewState, handlers }) {
-  const { role, summary, capabilities } = viewState;
+  const { username ,role, summary, capabilities } = viewState;
+  console.log(viewState)
 
   const container = document.createElement("div");
   container.className = "view-container dashboard-view";
@@ -10,7 +11,7 @@ export function DashboardView({ viewState, handlers }) {
   container.appendChild(title);
 
   const welcome = document.createElement("p");
-  welcome.textContent = `Přihlášen jako: ${role}`;
+  welcome.textContent = `Přihlášen jako: ${username} (${role})`;
   welcome.className = "welcome-message";
   container.appendChild(welcome);
 
