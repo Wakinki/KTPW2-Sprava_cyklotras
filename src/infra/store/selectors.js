@@ -81,38 +81,49 @@ export function canDeleteRoute(state) {
 }
 
 /**
- * Může navrhnout trasu? (DRAFT → PROPOSED, pouze MAINTAINER)
- * GUEST nemůže (jeho trasy jsou už v PROPOSED)
+ * Může navrhnout trasu? (DRAFT → PROPOSED)
+ * - MAINTAINER: může navrhnout své vlastní trasy v DRAFT
+ * - ADMINISTRATOR: může navrhnout JAKOUKOLI trasu v DRAFT
+ * - GUEST: nemůže (jeho trasy jsou už v PROPOSED)
  */
 export function canProposeRoute(state) {
   const { role, userId } = state.auth;
   const route = selectRouteById(state);
   if (!route) return false;
+
+  // ADMINISTRATOR může navrhnout JAKOUKOLI trasu v DRAFT
+  if (role === "ADMINISTRATOR" && route.state === "DRAFT") {
+    return true;
+  }
+
+  // MAINTAINER může navrhnout pouze svou vlastní trasu v DRAFT
   return role === "MAINTAINER" &&
          route.createdBy === userId &&
          route.state === "DRAFT";
 }
 
 /**
- * Může podepsat trasu? (pouze ADMINISTRATOR)
- * GUEST nemůže
+ * Může vyznačkovat trasu? (PROPOSED → SIGNED)
+ * - MAINTAINER/ADMINISTRATOR: může vyznačkovat JAKOUKOLI trasu v PROPOSED
+ * - GUEST: nemůže
  */
 export function canSignRoute(state) {
   const { role } = state.auth;
   const route = selectRouteById(state);
   if (!route) return false;
-  return role === "ADMINISTRATOR" && route.state === "PROPOSED";
+  return (role === "ADMINISTRATOR" || role === "MAINTAINER") && route.state === "PROPOSED";
 }
 
 /**
- * Může implementovat trasu? (pouze ADMINISTRATOR)
- * GUEST nemůže
+ * Může implementovat trasu? (SIGNED → OFFICIALLY_IMPLEMENTED)
+ * - ADMINISTRATOR: může implementovat JAKOUKOLI trasu v SIGNED
+ * - MAINTAINER/GUEST: nemůže
  */
 export function canImplementRoute(state) {
   const { role } = state.auth;
   const route = selectRouteById(state);
   if (!route) return false;
-  if (role !== "ADMINISTRATOR") return false; 
+  if (role !== "ADMINISTRATOR") return false;
   if (route.state !== "SIGNED") return false;
 
   const allSignsOk = route.signIds.every(signId => {

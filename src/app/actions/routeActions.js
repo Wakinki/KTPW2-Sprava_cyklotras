@@ -188,7 +188,7 @@ export async function signRoute({ store, api, payload }) {
           routes,
           ui: {
             ...state.ui,
-            notification: { type: "SUCCESS", message: "Trasa byla podepsána" },
+            notification: { type: "SUCCESS", message: "Trasa byla vyznačena" },
           },
         };
       }
@@ -196,7 +196,7 @@ export async function signRoute({ store, api, payload }) {
         ...state,
         ui: {
           ...state.ui,
-          notification: { type: "ERROR", message: reason || "Podepsání se nezdařilo" },
+          notification: { type: "ERROR", message: reason || "Vyznačení se nezdařilo" },
         },
       };
     });

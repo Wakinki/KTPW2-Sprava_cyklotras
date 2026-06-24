@@ -35,7 +35,7 @@ export function DashboardView({ viewState, handlers }) {
         <ul>
           <li>Koncepty: ${summary.draftRoutesCount || 0}</li>
           <li>Navržené: ${summary.proposedRoutesCount || 0}</li>
-          <li>Podepsané: ${summary.signedRoutesCount || 0}</li>
+          <li>Vyznačené: ${summary.signedRoutesCount || 0}</li>
           <li>Implementované: ${summary.implementedRoutesCount || 0}</li>
         </ul>
       `;
@@ -63,7 +63,7 @@ export function DashboardView({ viewState, handlers }) {
         <ul>
           <li>Koncepty: ${summary.draftRoutesCount || 0}</li>
           <li>Navržené: ${summary.proposedRoutesCount || 0}</li>
-          <li>Podepsané: ${summary.signedRoutesCount || 0}</li>
+          <li>Vyznačené: ${summary.signedRoutesCount || 0}</li>
           <li>Implementované: ${summary.implementedRoutesCount || 0}</li>
         </ul>
       `;

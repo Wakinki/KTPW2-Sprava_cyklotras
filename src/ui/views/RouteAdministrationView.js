@@ -91,7 +91,7 @@ export function RouteAdministrationView({ viewState, handlers }) {
 
     if (capabilities.canSign) {
       const signButton = document.createElement("button");
-      signButton.textContent = "Podepsat trasu (PROPOSED → SIGNED)";
+      signButton.textContent = "Vyznačkovat trasu (PROPOSED → SIGNED)";
       signButton.className = "btn btn-success";
       signButton.onclick = () => handlers.onSignRoute({ routeId: route.id });
       stateButtons.appendChild(signButton);

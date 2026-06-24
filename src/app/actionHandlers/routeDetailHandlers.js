@@ -38,7 +38,7 @@ export function routeDetailHandlers(dispatch, viewState) {
       }
     },
     onSignRoute: (payload) => {
-      if (confirm("Opravdu chcete podepsat tuto trasu?")) {
+      if (confirm("Opravdu chcete vyznačkovat tuto trasu?")) {
         dispatch({ type: "SIGN_ROUTE", payload });
       }
     },

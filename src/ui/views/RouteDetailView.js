@@ -145,7 +145,7 @@ export function RouteDetailView({ viewState, handlers }) {
 
     if (capabilities.canSign) {
       const signButton = document.createElement("button");
-      signButton.textContent = "Podepsat trasu";
+      signButton.textContent = "Vyznačit trasu";
       signButton.className = "btn btn-success";
       signButton.onclick = () => handlers.onSignRoute({ routeId: route.id });
       actionsSection.appendChild(signButton);

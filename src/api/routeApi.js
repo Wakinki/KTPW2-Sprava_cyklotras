@@ -112,11 +112,16 @@ export function createRouteApi(db) {
 
       const route = db.routes.find((r) => r.id === routeId);
       if (!route) return { status: "REJECTED", reason: "Trasa nenalezena" };
-      if (route.createdBy !== user.userId) {
-        return { status: "REJECTED", reason: "Nemáte oprávnění navrhnout tuto trasu" };
-      }
-      if (!canTransition(route.state, ROUTE_STATES.PROPOSED)) {
-        return { status: "REJECTED", reason: `Nelze přejít ze stavu ${route.state} do PROPOSED` };
+
+      if (user.role === "ADMINISTRATOR") {
+        if (route.state !== "DRAFT") {
+          return { status: "REJECTED", reason: `Nelze přejít ze stavu ${route.state} do PROPOSED` };
+        }
+      } else {
+
+        if (route.createdBy !== user.userId || route.state !== "DRAFT") {
+          return { status: "REJECTED", reason: "Nemáte oprávnění navrhnout tuto trasu" };
+        }
       }
 
       route.state = ROUTE_STATES.PROPOSED;
@@ -129,8 +134,9 @@ export function createRouteApi(db) {
       await delay();
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
-      if (user.role !== "ADMINISTRATOR") {
-        return { status: "REJECTED", reason: "Nemáte oprávnění podepsat trasu" };
+
+      if (user.role !== "ADMINISTRATOR" && user.role !== "MAINTAINER") {
+        return { status: "REJECTED", reason: "Nemáte oprávnění vyznačkovat trasu" };
       }
 
       const route = db.routes.find((r) => r.id === routeId);
@@ -149,6 +155,7 @@ export function createRouteApi(db) {
       await delay();
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
+
       if (user.role !== "ADMINISTRATOR") {
         return { status: "REJECTED", reason: "Nemáte oprávnění implementovat trasu" };
       }
@@ -158,7 +165,6 @@ export function createRouteApi(db) {
       if (!canTransition(route.state, ROUTE_STATES.OFFICIALLY_IMPLEMENTED)) {
         return { status: "REJECTED", reason: `Nelze přejít ze stavu ${route.state} do OFFICIALLY_IMPLEMENTED` };
       }
-
 
       const allSignsOk = route.signIds.every((signId) => {
         const sign = db.signs.find((s) => s.id === signId);

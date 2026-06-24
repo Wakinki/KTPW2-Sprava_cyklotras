@@ -25,7 +25,7 @@ export function routeAdministrationHandlers(dispatch, viewState) {
       }
     },
     onSignRoute: () => {
-      if (confirm("Opravdu chcete podepsat tuto trasu?")) {
+      if (confirm("Opravdu chcete vyznačkovat tuto trasu?")) {
         dispatch({ type: "SIGN_ROUTE", payload: { routeId: route.id } });
       }
     },
