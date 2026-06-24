@@ -101,14 +101,6 @@ export function DashboardView({ viewState, handlers }) {
     quickLinks.appendChild(routesButton);
   }
 
-  if (capabilities?.canEnterSignList) {
-    const signsButton = document.createElement("button");
-    signsButton.textContent = "Zobrazit všechny značky";
-    signsButton.className = "btn btn-primary";
-    signsButton.onclick = handlers.onEnterSignList;
-    quickLinks.appendChild(signsButton);
-  }
-
   container.appendChild(quickLinks);
   return container;
 }

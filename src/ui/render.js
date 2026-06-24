@@ -28,7 +28,7 @@ export function render(root, state, dispatch) {
   root.replaceChildren();
 
   const viewState = selectViewState(state);
-
+console.log("Rendering viewState:", viewState);
   const handlers = createHandlers(dispatch, viewState);
 
   const navigationPanelHandlers = createNavigationPanelHandlers(dispatch);

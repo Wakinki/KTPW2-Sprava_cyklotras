@@ -27,6 +27,7 @@ import {
 import {
   enterSignList,
   enterSignDetail,
+  enterSignAdministration,
   createSign,
   updateSign,
   deleteSign,
@@ -94,6 +95,8 @@ export function createDispatcher(store, api) {
         return enterSignList({ store });
       case "ENTER_SIGN_DETAIL":
         return enterSignDetail({ store, payload });
+      case "ENTER_SIGN_ADMINISTRATION":
+        return enterSignAdministration({ store, payload })
 
       // ========== SIGNS - CRUD ==========
       case "CREATE_SIGN":

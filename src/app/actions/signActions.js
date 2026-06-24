@@ -16,6 +16,14 @@ export async function enterSignDetail({ store, payload }) {
   }));
 }
 
+export async function enterSignAdministration({ store, payload }) {
+  const { signId } = payload;
+  store.setState((state) => ({
+    ...state,
+    ui: { ...state.ui, mode: "SIGN_ADMINISTRATION", selectedSignId: signId, selectedRouteId: null },
+  }));
+}
+
 // CRUD akce
 export async function createSign({ store, api, payload }) {
   const { token } = store.getState().auth;
@@ -30,7 +38,6 @@ export async function createSign({ store, api, payload }) {
     store.setState((state) => {
       if (status === "SUCCESS") {
         const signs = [...state.signs, sign];
-        // Aktualizuj trasu, aby měla novou signId
         const routes = state.routes.map((r) => {
           if (r.id === routeId) {
             return { ...r, signIds: [...r.signIds, sign.id] };

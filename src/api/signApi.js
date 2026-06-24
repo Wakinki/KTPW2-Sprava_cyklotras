@@ -111,7 +111,7 @@ export function createSignApi(db) {
 
     // Stavové přechody
     async proposeSign(signId, token) {
-      await delay();
+
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
 
@@ -131,7 +131,7 @@ export function createSignApi(db) {
     },
 
     async confirmSign(signId, token) {
-      await delay();
+
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
       if (user.role !== "ADMINISTRATOR") {
