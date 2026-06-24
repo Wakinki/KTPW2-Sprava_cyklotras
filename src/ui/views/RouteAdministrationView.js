@@ -52,35 +52,6 @@ export function RouteAdministrationView({ viewState, handlers }) {
   descGroup.appendChild(descInput);
   form.appendChild(descGroup);
 
-  const lengthGroup = document.createElement("div");
-  lengthGroup.className = "form-group";
-  const lengthLabel = document.createElement("label");
-  lengthLabel.textContent = "Délka (km):";
-  const lengthInput = document.createElement("input");
-  lengthInput.type = "number";
-  lengthInput.step = "0.1";
-  lengthInput.value = route.lengthKm;
-  lengthInput.required = true;
-  lengthGroup.appendChild(lengthLabel);
-  lengthGroup.appendChild(lengthInput);
-  form.appendChild(lengthGroup);
-
-  const difficultyGroup = document.createElement("div");
-  difficultyGroup.className = "form-group";
-  const difficultyLabel = document.createElement("label");
-  difficultyLabel.textContent = "Obtížnost:";
-  const difficultySelect = document.createElement("select");
-  ["EASY", "MEDIUM", "HARD"].forEach((d) => {
-    const option = document.createElement("option");
-    option.value = d;
-    option.textContent = d;
-    if (d === route.difficulty) option.selected = true;
-    difficultySelect.appendChild(option);
-  });
-  difficultyGroup.appendChild(difficultyLabel);
-  difficultyGroup.appendChild(difficultySelect);
-  form.appendChild(difficultyGroup);
-
   if (capabilities?.canEdit) {
     const saveButton = document.createElement("button");
     saveButton.type = "button";
@@ -91,8 +62,6 @@ export function RouteAdministrationView({ viewState, handlers }) {
         routeId: route.id,
         name: nameInput.value,
         description: descInput.value,
-        lengthKm: parseFloat(lengthInput.value),
-        difficulty: difficultySelect.value,
       });
     };
     form.appendChild(saveButton);

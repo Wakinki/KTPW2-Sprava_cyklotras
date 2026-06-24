@@ -43,7 +43,7 @@ export function createRouteApi(db) {
       return { status: "REJECTED", reason: "Neplatný token" };
     }
 
-    const { name, description, lengthKm, difficulty } = payload;
+    const { name, description,} = payload;
     const routeId = `route-${Date.now()}`;
 
     const initialState = user.role === "GUEST" ? "PROPOSED" : "DRAFT";
@@ -52,9 +52,7 @@ export function createRouteApi(db) {
     id: routeId,
     name,
     description,
-    lengthKm,
-    difficulty,
-    state: initialState, // ⬅️ GUEST: PROPOSED, MAINTAINER: DRAFT
+    state: initialState,
     createdBy: user.userId,
     createdAt: new Date().toISOString().split("T")[0],
     signIds: [],
@@ -80,11 +78,9 @@ export function createRouteApi(db) {
         return { status: "REJECTED", reason: "Trasa ve stavu SIGNED nebo OFFICIALLY_IMPLEMENTED nelze editovat" };
       }
 
-      const { name, description, lengthKm, difficulty } = payload;
+      const { name, description,} = payload;
       route.name = name ?? route.name;
       route.description = description ?? route.description;
-      route.lengthKm = lengthKm ?? route.lengthKm;
-      route.difficulty = difficulty ?? route.difficulty;
 
       return { status: "SUCCESS", route };
     },
@@ -163,7 +159,7 @@ export function createRouteApi(db) {
         return { status: "REJECTED", reason: `Nelze přejít ze stavu ${route.state} do OFFICIALLY_IMPLEMENTED` };
       }
 
-      // Kontrola, že všechny značky jsou OK
+
       const allSignsOk = route.signIds.every((signId) => {
         const sign = db.signs.find((s) => s.id === signId);
         return sign && sign.state === "OK";

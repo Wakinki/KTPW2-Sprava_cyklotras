@@ -27,11 +27,11 @@ export async function enterRouteAdministration({ store, payload }) {
 // CRUD akce
 export async function createRoute({ store, api, payload }) {
   const { token } = store.getState().auth;
-  const { name, description, lengthKm, difficulty } = payload;
+  const { name, description, } = payload;
   console.log(payload)
   try {
     const { status, reason, route } = await api.routes.createRoute(
-      { name, description, lengthKm, difficulty },
+      { name, description, },
       token
     );
 
@@ -64,12 +64,12 @@ export async function createRoute({ store, api, payload }) {
 
 export async function updateRoute({ store, api, payload }) {
   const { token } = store.getState().auth;
-  const { routeId, name, description, lengthKm, difficulty } = payload;
+  const { routeId, name, description} = payload;
 
   try {
     const { status, reason, route } = await api.routes.updateRoute(
       routeId,
-      { name, description, lengthKm, difficulty },
+      { name, description},
       token
     );
 

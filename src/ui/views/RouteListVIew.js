@@ -32,7 +32,7 @@ export function RouteListView({ viewState, handlers }) {
 
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    ["Název", "Délka", "Obtížnost", "Stav", "Akce"].forEach((text) => {
+    ["Název", "Stav", "Akce"].forEach((text) => {
       const th = document.createElement("th");
       th.textContent = text;
       headerRow.appendChild(th);
@@ -48,13 +48,7 @@ export function RouteListView({ viewState, handlers }) {
       nameCell.textContent = route.name;
       row.appendChild(nameCell);
 
-      const lengthCell = document.createElement("td");
-      lengthCell.textContent = `${route.lengthKm} km`;
-      row.appendChild(lengthCell);
-
-      const difficultyCell = document.createElement("td");
-      difficultyCell.textContent = route.difficulty;
-      row.appendChild(difficultyCell);
+  
 
       const stateCell = document.createElement("td");
       const stateBadge = document.createElement("span");

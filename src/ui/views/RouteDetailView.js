@@ -40,8 +40,6 @@ export function RouteDetailView({ viewState, handlers }) {
 
   const infoData = [
     ["Popis", route.description || "Žádný popis"],
-    ["Délka", `${route.lengthKm} km`],
-    ["Obtížnost", route.difficulty],
     ["Stav", ``],
     ["Vytvořil", `${route.createdBy} (${route.createdAt})`],
   ];

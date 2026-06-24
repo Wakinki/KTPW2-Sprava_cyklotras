@@ -18,15 +18,13 @@ export function routeListHandlers(dispatch, viewState) {
       if (!name) return;
 
       const description = prompt("Zadejte popis trasy:");
-      const lengthKm = parseFloat(prompt("Zadejte délku v km:", "25.5"));
-      const difficulty = prompt("Zadejte obtížnost (EASY/MEDIUM/HARD):", "EASY");
+      
 
-      if (name && !isNaN(lengthKm) && difficulty) {
-        console.log( { name, description, lengthKm, difficulty })
-        console.log(dispatch)
+      if (name ) {
+        
         dispatch({
           type: "CREATE_ROUTE",
-          payload: { name, description, lengthKm, difficulty },
+          payload: { name, description},
         });
       } else {
         alert("Neplatné údaje!");
