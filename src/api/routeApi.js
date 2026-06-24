@@ -86,7 +86,7 @@ export function createRouteApi(db) {
     },
 
     async deleteRoute(routeId, token) {
-      await delay();
+
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
       if (user.role !== "ADMINISTRATOR") {
@@ -106,7 +106,7 @@ export function createRouteApi(db) {
 
     // Stavové přechody
     async proposeRoute(routeId, token) {
-      await delay();
+
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
 
