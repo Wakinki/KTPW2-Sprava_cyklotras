@@ -159,7 +159,7 @@ export async function proposeSign({ store, api, payload }) {
 
   try {
     const { status, reason, sign } = await api.signs.proposeSign(signId, token);
-console.log("proposeSign", { status, reason, sign })
+
     store.setState((state) => {
       if (status === "SUCCESS") {
         const signs = state.signs.map((s) => (s.id === sign.id ? sign : s));

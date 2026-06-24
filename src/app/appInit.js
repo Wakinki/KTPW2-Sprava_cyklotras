@@ -43,8 +43,6 @@ export async function appInit({ store, api, dispatch }) {
         api.signs.getSigns(auth.token),
       ]);
 
-      console.log("appInit", routesResult);
-
       if (routesResult.status === "SUCCESS") {
         routes = routesResult.routes;
       }

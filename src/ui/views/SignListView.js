@@ -1,7 +1,6 @@
 // src/ui/views/SignListView.js
 export function SignListView({ viewState, handlers }) {
   const { signs, capabilities } = viewState;
-  console.log(capabilities)
 
   const container = document.createElement("div");
   container.className = "view-container sign-list-view";

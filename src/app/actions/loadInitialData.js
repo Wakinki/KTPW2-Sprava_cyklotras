@@ -1,6 +1,5 @@
 // src/app/actions/loadInitialData.js
 export async function loadInitialData({ store, api, payload }) {
-      console.log("loadInitialData")
   const { token } = payload || store.getState().auth;
 
   if (!token) {

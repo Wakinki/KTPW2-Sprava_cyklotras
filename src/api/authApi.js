@@ -23,7 +23,6 @@ async function hashPassword(password) {
 
 async function isPasswordCorrect(user, password) {
   const hashed = await hashPassword(password);
-   console.log("isPasswordCorrect",hashed === user.hashedPassword)
   return hashed === user.hashedPassword;
 }
 

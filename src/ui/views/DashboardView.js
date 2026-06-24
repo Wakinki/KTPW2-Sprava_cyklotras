@@ -1,7 +1,6 @@
 // src/ui/views/DashboardView.js
 export function DashboardView({ viewState, handlers }) {
   const { username ,role, summary, capabilities } = viewState;
-  console.log(viewState)
 
   const container = document.createElement("div");
   container.className = "view-container dashboard-view";

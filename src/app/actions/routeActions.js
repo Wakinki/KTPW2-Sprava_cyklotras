@@ -28,7 +28,6 @@ export async function enterRouteAdministration({ store, payload }) {
 export async function createRoute({ store, api, payload }) {
   const { token } = store.getState().auth;
   const { name, description, } = payload;
-  console.log(payload)
   try {
     const { status, reason, route } = await api.routes.createRoute(
       { name, description, },
