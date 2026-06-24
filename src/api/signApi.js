@@ -14,8 +14,8 @@ const VALID_TRANSITIONS = {
   [SIGN_STATES.DRAFTED]: [SIGN_STATES.PROPOSED, SIGN_STATES.CANCELED],
   [SIGN_STATES.PROPOSED]: [SIGN_STATES.CANCELED, SIGN_STATES.OK],
   [SIGN_STATES.CANCELED]: [],
-  [SIGN_STATES.OK]: [SIGN_STATES.TORN_DOWN],
-  [SIGN_STATES.TORN_DOWN]: [SIGN_STATES.OK],
+  [SIGN_STATES.OK]: [SIGN_STATES.TORN_DOWN, SIGN_STATES.CANCELED],
+  [SIGN_STATES.TORN_DOWN]: [SIGN_STATES.OK, SIGN_STATES.CANCELED],
 };
 
 function canTransition(currentState, nextState) {
@@ -89,7 +89,7 @@ export function createSignApi(db) {
     },
 
     async deleteSign(signId, token) {
-      await delay();
+
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
       if (user.role !== "ADMINISTRATOR") {
@@ -117,7 +117,7 @@ export function createSignApi(db) {
 
       const sign = db.signs.find((s) => s.id === signId);
       if (!sign) return { status: "REJECTED", reason: "Značka nenalezena" };
-      if (sign.createdBy !== user.userId) {
+      if (user.role === "GUEST") {
         return { status: "REJECTED", reason: "Nemáte oprávnění navrhnout tuto značku" };
       }
       if (!canTransition(sign.state, SIGN_STATES.PROPOSED)) {
@@ -151,15 +151,21 @@ export function createSignApi(db) {
     },
 
     async cancelSign(signId, token) {
-      await delay();
+
       const user = db.users.find((u) => u.token === token);
-      if (!user) return { status: "REJECTED", reason: "Neplatný token" };
+   
+      if (!user) {
+        return { status: "REJECTED", reason: "Neplatný token" }
+      };
+
+      const sign = db.signs.find((s) => s.id === signId);
+
+      if (!sign) return { status: "REJECTED", reason: "Značka nenalezena" };
+
       if (sign.createdBy !== user.userId && user.role !== "ADMINISTRATOR") {
         return { status: "REJECTED", reason: "Nemáte oprávnění zrušit tuto značku" };
       }
 
-      const sign = db.signs.find((s) => s.id === signId);
-      if (!sign) return { status: "REJECTED", reason: "Značka nenalezena" };
       if (!canTransition(sign.state, SIGN_STATES.CANCELED)) {
         return { status: "REJECTED", reason: `Nelze přejít ze stavu ${sign.state} do CANCELED` };
       }
@@ -171,7 +177,7 @@ export function createSignApi(db) {
     },
 
     async reportTornDown(signId, token) {
-      await delay();
+
       const user = db.users.find((u) => u.token === token);
       if (!user) return { status: "REJECTED", reason: "Neplatný token" };
 

@@ -175,14 +175,14 @@ export function canProposeSign(state) {
 }
 
 /**
- * Může potvrdit značku? (pouze ADMINISTRATOR)
+ * Může potvrdit značku? (MAINTAINER nebo ADMINISTRATOR)
  * GUEST nemůže
  */
 export function canConfirmSign(state) {
   const { role } = state.auth;
   const sign = selectSignById(state);
   if (!sign) return false;
-  return role === "ADMINISTRATOR" && sign.state === "PROPOSED";
+  return (role === "ADMINISTRATOR" || role === "MAINTAINER") && sign.state === "PROPOSED";
 }
 
 /**
@@ -196,7 +196,7 @@ export function canCancelSign(state) {
   if (role === "ADMINISTRATOR") return true;
   if (role !== "MAINTAINER") return false;
   return sign.createdBy === userId &&
-         (sign.state === "DRAFTED" || sign.state === "PROPOSED");
+         (sign.state === "DRAFTED");
 }
 
 /**
