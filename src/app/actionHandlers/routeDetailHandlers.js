@@ -24,7 +24,7 @@ export function routeDetailHandlers(dispatch, viewState) {
         dispatch({
           type: "CREATE_SIGN",
           payload: {
-            routeId,  // ⬅️ Automaticky z detailu trasy
+            routeId,
             location: { lat, lng },
             direction,
             type: type || "NORMAL"

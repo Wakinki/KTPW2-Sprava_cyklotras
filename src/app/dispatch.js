@@ -47,6 +47,40 @@ export function createDispatcher(store, api) {
   return async function dispatch(action) {
     const { type, payload = {} } = action ?? {};
 
+    try {
+      // Volání příslušné akce
+      const result = await dispatchAction(type, payload);
+
+      // Pokud akce vrátí REJECTED/ERROR, zobrazíme notifikaci
+      if (result?.status === "REJECTED" || result?.status === "ERROR") {
+        store.setState((state) => ({
+          ...state,
+          ui: {
+            ...state.ui,
+            notification: {
+              type: "ERROR",
+              message: result.reason || "Akce se nezdařila"
+            }
+          }
+        }));
+      }
+
+      return result;
+    } catch (error) {
+      // Zachytíme všechny neočekávané chyby
+      store.setState((state) => ({
+        ...state,
+        ui: {
+          ...state.ui,
+          notification: {
+            type: "ERROR",
+            message: error.message || "Neočekávaná chyba"
+          }
+        }
+      }));
+      console.error("Chyba v akci:", type, error);
+    }
+     async function dispatchAction(type, payload) {
     switch (type) {
       // ========== INICIALIZACE ==========
       case "APP_INIT":
@@ -122,5 +156,6 @@ export function createDispatcher(store, api) {
       default:
         console.warn(`Unknown action type: ${type}`);
     }
+  }
   };
 }
